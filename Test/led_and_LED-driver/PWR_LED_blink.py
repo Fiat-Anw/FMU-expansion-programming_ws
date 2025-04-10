@@ -9,7 +9,7 @@ G_LED_PIN = 11  # Change this to the GPIO number you're using
 B_LED_PIN = 15  # Change this to the GPIO number you're using
 
 GPIO.setmode(GPIO.BOARD)  # Use physical pin numbering
-# Set pin as output and turn on i initial state
+# Set pin as output and set initial state
 GPIO.setup(R_LED_PIN, GPIO.OUT, initial= GPIO.LOW)
 GPIO.setup(G_LED_PIN, GPIO.OUT, initial= GPIO.LOW)
 GPIO.setup(B_LED_PIN, GPIO.OUT, initial= GPIO.LOW)
@@ -49,4 +49,12 @@ try:
         GPIO.output(G_LED_PIN, GPIO.LOW)
         time.sleep(1)
 except KeyboardInterrupt:
-    GPIO.cleanup()
+    GPIO.output(R_LED_PIN, GPIO.LOW)
+    GPIO.output(G_LED_PIN, GPIO.LOW)
+    GPIO.output(B_LED_PIN, GPIO.LOW)
+
+# finally:
+#     # Clean up GPIO settings
+#     GPIO.cleanup()
+#     GPIO.cleanup()
+#     print("GPIO cleanup done")
