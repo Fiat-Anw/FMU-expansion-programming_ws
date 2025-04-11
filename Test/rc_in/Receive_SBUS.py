@@ -35,7 +35,7 @@ def parse_sbus_frame(frame):
 def main():
     # Configure the serial port
     serial_port = '/dev/ttyTHS1'  # Replace with your UART port
-    baud_rate = 1000000  # SBUS baud rate
+    baud_rate = 100000  # SBUS baud rate
     timeout = 0.02  # 20ms timeout
 
     try:
