@@ -3,7 +3,7 @@ import time
 
 # SBUS constants
 SBUS_FRAME_LEN = 25
-SBUS_CHANNELS = 16
+SBUS_CHANNELS = 10  # Updated to 10 channels
 SBUS_HEADER = 0x0F
 SBUS_END = 0x00
 
@@ -13,7 +13,7 @@ def parse_sbus_frame(frame):
     if len(frame) != SBUS_FRAME_LEN:
         return None
 
-    # Extract 16 channels (11 bits each) from the SBUS frame
+    # Extract 10 channels (11 bits each) from the SBUS frame
     channels.append((frame[1] | frame[2] << 8) & 0x07FF)
     channels.append((frame[2] >> 3 | frame[3] << 5) & 0x07FF)
     channels.append((frame[3] >> 6 | frame[4] << 2 | frame[5] << 10) & 0x07FF)
@@ -24,12 +24,6 @@ def parse_sbus_frame(frame):
     channels.append((frame[10] >> 5 | frame[11] << 3) & 0x07FF)
     channels.append((frame[12] | frame[13] << 8) & 0x07FF)
     channels.append((frame[13] >> 3 | frame[14] << 5) & 0x07FF)
-    channels.append((frame[14] >> 6 | frame[15] << 2 | frame[16] << 10) & 0x07FF)
-    channels.append((frame[16] >> 1 | frame[17] << 7) & 0x07FF)
-    channels.append((frame[17] >> 4 | frame[18] << 4) & 0x07FF)
-    channels.append((frame[18] >> 7 | frame[19] << 1 | frame[20] << 9) & 0x07FF)
-    channels.append((frame[20] >> 2 | frame[21] << 6) & 0x07FF)
-    channels.append((frame[21] >> 5 | frame[22] << 3) & 0x07FF)
 
     return channels
 
