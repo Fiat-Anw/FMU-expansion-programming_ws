@@ -35,27 +35,46 @@ def parse_sbus_frame(frame):
 
     return channels
 
-def main():
+def read_sbus_data(serial_port):
+    buffer = bytearray()
+
+    """Read and buffer SBUS data to handle incomplete or misaligned frames."""
     try:
-        print("Listening for SBUS data...")
-        while True:
-            # Reset and Read a frame
-            serial_port.reset_input_buffer()
-            data = serial_port.read(SBUS_FRAME_LEN)
-            if len(data) == SBUS_FRAME_LEN:
-                print("Raw data:", " ".join(f"{byte:02X}" for byte in data))
-                if data[0] == SBUS_HEADER and data[-1] == SBUS_END:
-                    channels = parse_sbus_frame(data)
+        # Reset and Read a frame
+        serial_port.reset_input_buffer()
+        bytes = serial_port.read(SBUS_FRAME_LEN)
+        if bytes:
+            buffer.extend(bytes)
+
+            # Check if the buffer contains a complete frame
+            if len(buffer) >= SBUS_FRAME_LEN:
+                print("Raw data:", " ".join(f"{byte:02X}" for byte in bytes))
+
+                # Validate the frame
+                if buffer[0] == SBUS_HEADER and buffer[SBUS_FRAME_LEN - 1] == SBUS_END:
+                    frame = buffer[:SBUS_FRAME_LEN]
+                    buffer = buffer[SBUS_FRAME_LEN:]  # Remove the processed frame
+                    channels = parse_sbus_frame(frame)
                     if channels:
                         print("Channel values:", channels)
-
                     else:
                         print("Failed to parse channels.")
                 else:
                     print("Invalid SBUS frame: Header or End byte mismatch.")
-            else:
-                print("Incomplete frame received.")
-            time.sleep(0.1)
+                    # Discard the first byte if the frame is invalid
+                    buffer.pop(0)
+                    
+    except serial.SerialException as e:
+        print(f"Serial error: {e}")
+        return False
+    return True
+
+def main():
+    try:
+        print("Listening for SBUS data...")
+        while True:
+            if not read_sbus_data(serial_port):
+                break
 
     except serial.SerialException as e:
         print(f"Serial error: {e}")
