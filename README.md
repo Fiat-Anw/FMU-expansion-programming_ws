@@ -32,7 +32,7 @@ FMU-expansion-programming_ws/
 **Kanisorn Ananwattanawit (Fiat-Anw)**  
 GitHub: [Fiat-Anw](https://github.com/Fiat-Anw)
 
-📂 Device_Tree — GPIO Overlay Configuration
+## 📂 Device_Tree — GPIO Overlay Configuration
 This folder contains .dts files used to configure Jetson Orin Nano's GPIO pins to interface with components on the FMU-expansion board. Each folder targets a specific hardware configuration (e.g., I2C, UART, LED).
 
 ⚙️ How to Use (.dtbo) Overlays
