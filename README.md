@@ -15,8 +15,6 @@ The board integrates essential SMT components such as:
 PCB files are available at:  
 👉 [FMU-expansion-from-Jetson_Orin_Nano](https://github.com/Fiat-Anw/FMU-expansion-from-Jetson_Orin_Nano.git)
 
-[Uploading 20250402_163126.webp…]()
-
 ---
 
 ## 📁 Repository Structure
